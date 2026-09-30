@@ -150,15 +150,14 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(false);
   }, []);
 
-  // Save user to localStorage whenever user changes
-  useEffect(() => {
-    if (user) {
-      localStorage.setItem('jobPortalUser', JSON.stringify(user));
-    } else {
-      localStorage.removeItem('jobPortalUser');
-      localStorage.removeItem('authToken');
-    }
-  }, [user]);
+	// Save user to localStorage whenever user changes.
+	// Clearing is handled by logout(); clearing here would wipe the saved
+	// session on mount, before the load effect's setUser has applied.
+	useEffect(() => {
+		if (user) {
+			localStorage.setItem('jobPortalUser', JSON.stringify(user));
+		}
+	}, [user]);
 
   const login = async (email, password, userType) => {
     setIsLoading(true);
